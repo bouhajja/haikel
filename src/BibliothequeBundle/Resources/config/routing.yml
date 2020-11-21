@@ -1,0 +1,34 @@
+bibliotheque_mytable:
+    resource: "@BibliothequeBundle/Resources/config/routing/mytable.yml"
+    prefix:   /mytable
+
+
+mytable_index:
+    path:     /
+    defaults: { _controller: "BibliothequeBundle:Mytable:index" }
+    methods:  GET
+
+mytable_show:
+    path:     /{idface}/show
+    defaults: { _controller: "BibliothequeBundle:Mytable:show" }
+    methods:  GET
+
+mytable_new:
+    path:     /new
+    defaults: { _controller: "BibliothequeBundle:Mytable:new" }
+    methods:  [GET, POST]
+
+mytable_edit:
+    path:     /{idface}/edit
+    defaults: { _controller: "BibliothequeBundle:Mytable:edit" }
+    methods:  [GET, POST]
+
+mytable_delete:
+    path:     /{idface}/delete
+    defaults: { _controller: "BibliothequeBundle:Mytable:delete" }
+    methods:  DELETE
+
+mytable_recherche:
+    path:     /rech
+    defaults: { _controller: "BibliothequeBundle:Mytable:recherche" }
+    methods:

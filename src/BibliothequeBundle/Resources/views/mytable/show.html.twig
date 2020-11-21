@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mytable</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Idface</th>
+                <td>{{ mytable.idface }}</td>
+            </tr>
+            <tr>
+                <th>Reseau</th>
+                <td>{{ mytable.reseau }}</td>
+            </tr>
+            <tr>
+                <th>Zone</th>
+                <td>{{ mytable.zone }}</td>
+            </tr>
+            <tr>
+                <th>Region</th>
+                <td>{{ mytable.region }}</td>
+            </tr>
+            <tr>
+                <th>Regie</th>
+                <td>{{ mytable.regie }}</td>
+            </tr>
+            <tr>
+                <th>Support</th>
+                <td>{{ mytable.support }}</td>
+            </tr>
+            <tr>
+                <th>Format</th>
+                <td>{{ mytable.format }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ mytable.type }}</td>
+            </tr>
+            <tr>
+                <th>Codeface</th>
+                <td>{{ mytable.codeFace }}</td>
+            </tr>
+            <tr>
+                <th>Departement</th>
+                <td>{{ mytable.departement }}</td>
+            </tr>
+            <tr>
+                <th>Xpanneau</th>
+                <td>{{ mytable.xPanneau }}</td>
+            </tr>
+            <tr>
+                <th>Ypanneau</th>
+                <td>{{ mytable.yPanneau }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ mytable.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Emplacement</th>
+                <td>{{ mytable.emplacement }}</td>
+            </tr>
+            <tr>
+                <th>Trafficroutier2017</th>
+                <td>{{ mytable.trafficRoutier2017 }}</td>
+            </tr>
+            <tr>
+                <th>Map</th>
+                <td>{{ mytable.map }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ mytable.photo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('mytable_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('mytable_edit', { 'idface': mytable.idface }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

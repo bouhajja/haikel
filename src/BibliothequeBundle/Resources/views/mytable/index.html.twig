@@ -1,0 +1,256 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <style type="text/css" >
+        .Formulairadmin {
+            background-color: #00a65a;
+            font-family: verdana;
+            font-size: 11px;
+            color: #ffffff;
+            height: 1cm;
+        }
+        .Bouton {
+            border: 1pt solid #00a65a;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            color: #00a65a;
+            text-decoration: none;
+            font-size: 14px;
+           width: 50%;
+            height: 1cm;
+            align: center;
+
+        }
+        .reservations{
+            background-color: #BF3E26;
+            font-size: 13pt;
+            margin-bottom: 50px;
+           align-items: center;
+            align-self: center;
+        }
+
+        .reservations a{
+            color:#98fb98;
+        }
+        .reservations a:hover ,.reservations a:focus , .reservations a:visited{
+            color:#98fb98;
+        }
+        .pagination > li > a,
+        .pagination > li > span{
+            color: #BF3E26;
+
+        }
+
+        .pagination > li > a:hover,
+        .pagination > li > span:hover,
+        .pagination > li > a:focus,
+        .pagination > li > span:focus{
+            background-color: #98fb98;
+            color:#BF3E26;
+        }
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus{
+            background-color: #1C8C42;
+            color: #ffffff;
+            border: 1px solid #dddddd;
+        }
+    </style>
+    <!-- Just an image -->
+    <nav class="navbar navbar-dark bg-dark" style="height: 3cm ; background-image:url("{{ asset('images/omegaplus.png')}}") ">
+        <a class="navbar-brand" href="#">
+
+        </a>
+
+    </nav>
+
+    <br>
+    <br>
+    <br>
+<div class="container-fluid" align="center">
+    <script src="{{ asset('js2/jquery.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $('#search').keyup(function(){
+                search_table($(this).val());
+            });
+            $('#search1').keyup(function(){
+                search_table($(this).val());
+            });
+            $('#search2').keyup(function(){
+                search_table($(this).val());
+            });
+            $('#search3').keyup(function(){
+                search_table($(this).val());
+            });
+            function search_table(value){
+                $('#tableac tbody tr').each(function(){
+                    var found = 'false';
+                    $(this).each(function(){
+                        if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                        {
+                            found = 'true';
+                        }
+                    });
+                    if(found == 'true')
+                    {
+                        $(this).show();
+
+                    }
+                    else
+                    {
+                        $(this).hide();
+
+
+
+                    }
+                });
+            }
+        });
+    </script>
+
+    <img src="{{ asset('images/kk.png') }}" alt="IMG">
+    <img src="C:/wamp64/www/piDevEvents/web/templatePi/login_v1/images/omegaplus.PNG" width="30" height="30" alt="" />
+    <div class="col-md-12">
+        <div class="panel panel-default">
+
+
+            <div  style="alignment: center">
+
+                <form  autocomplete="off"
+                      class="form-horizontal ls_form" style="width: 600px  ">
+
+                    <div class="row">
+                        <table style="background-color:#00a65a;width: 600px ; align-self: center ;border : 2px"  border="2px">
+                            <tbody>
+                            <tr align="center" class="Formulairadmin">
+                                <td colspan="4"><strong>Critéres de recherche</strong></td>
+                            </tr>
+                            <tr class="Formulairadmin">
+                                <td colspan="2" style="width:50%">
+                                    <label for="PanneauZoneId">Région</label>
+                                    <input name="code" class="Bouton" type="text" value=""
+                                           id="search">
+
+                                </td>
+                                <td colspan="2" style="width:50%">
+                                    <label for="PanneauZoneId">Format</label>
+                                    <input name="code" class="Bouton" type="text" value=""
+                                           id="search1">
+                                </td>
+                            </tr>
+                            <tr  class="Formulairadmin">
+                                <td colspan="2" style="width:50%">
+                                    <label for="PanneauCode">Code</label>
+
+                                        <input name="code" class="Bouton" type="text" value=""
+                                               id="search2">
+
+                                </td>
+                                <td colspan="2" style="width:50%">
+                                    <label for="PanneauEmplacementId">Emplacement</label>
+
+                                    <input name="code" class="Bouton" type="text" value=""
+                                           id="search3">
+                                </td>
+
+                            </tr>
+                            <tr align="center" class="Formulairadmin">
+                                <td colspan="4">
+
+
+
+                                            <button type="submit" class="btn btn-primary"  action="{{ path('mytable_recherche') }}">Afficher</button>
+
+                                            <br>
+
+
+
+                                </td>
+
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+
+            <div class="panel-heading" style="background-color: #00a65a">
+                <h3 class="panel-title">Liste des Panneaux</h3>
+            </div>
+            <div class="panel-body">
+
+
+                <table class="table table-bordered table-striped" cellspacing="0" id="tableac" border="2" width="100%">
+                    <thead style="color: #00a65a">
+                    <tr>
+
+                <th>Reseau</th>
+                <th>Zone</th>
+                <th>Region</th>
+                <th>Regie</th>
+                <th>Support</th>
+                <th>Format</th>
+                <th>Type</th>
+                <th>Codeface</th>
+                <th>Departement</th>
+
+                <th>Adresse</th>
+                <th>Emplacement</th>
+                <th>Trafficroutier2017</th>
+                <th>Map</th>
+                <th>Photo</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for mytable in mytables %}
+            <tr class="Formulairadmin" style="background-color: white ; color: black">
+
+                <td>{{ mytable.reseau }}</td>
+                <td>{{ mytable.zone }}</td>
+                <td>{{ mytable.region }}</td>
+                <td>{{ mytable.regie }}</td>
+                <td>{{ mytable.support }}</td>
+                <td>{{ mytable.format }}</td>
+                <td>{{ mytable.type }}</td>
+                <td>{{ mytable.codeFace }}</td>
+                <td>{{ mytable.departement }}</td>
+
+                <td>{{ mytable.adresse }}</td>
+                <td>{{ mytable.emplacement }}</td>
+                <td>{{ mytable.trafficRoutier2017 }}</td>
+                <td>{{ mytable.map }}</td>
+                <td>{{ mytable.photo }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<nav aria-label="Page navigation example">
+    <div class="pagination justify-content-center">{{ knp_pagination_render(mytables) }}</div>
+</nav>
+{% endblock %}
