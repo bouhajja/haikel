@@ -9,7 +9,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * Mytable
  *
  * @ORM\Table(name="mytable")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BibliothequeBundle\Repository\MytableRepository")
  * @Vich\Uploadable
  */
 class Mytable

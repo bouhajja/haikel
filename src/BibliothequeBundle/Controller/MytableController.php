@@ -4,6 +4,7 @@ namespace BibliothequeBundle\Controller;
 
 use BibliothequeBundle\Entity\Mytable;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -81,6 +82,7 @@ class MytableController extends Controller
         ));
     }
 
+
     /**
      * Finds and displays a mytable entity.
      *
@@ -150,5 +152,48 @@ class MytableController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+
+
+
+    public function searchAction(Request $request)
+    {
+
+        $data=[];
+        $em=$this->getDoctrine()->getManager();
+        $entity=$em->getRepository(Mytable::class)->search($request);
+        if($entity)
+        {
+            foreach ($entity as $ent)
+            {
+                $data[]=[
+                    'idface'=>$ent->getidface(),
+                    'reseau'=>$ent->getReseau(),
+                    'zone'=>$ent->getZone(),
+                    'region'=>$ent->getRegion(),
+                    'regie'=>$ent->getRegie(),
+                    'support'=>$ent->getSupport(),
+                    'format'=>$ent->getFormat(),
+                    'type'=>$ent->getType(),
+                    'code_face'=>$ent->getCodeFace(),
+                    'departement'=>$ent->getDepartement(),
+                    'adresse'=>$ent->getAdresse(),
+                    'emplecement'=>$ent->getEmplacement(),
+                    'traffic'=>$ent->getTrafficRoutier2017(),
+                    'photo'=>$ent->getPhoto()
+                ];
+            }
+        }
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+        $response->setData(
+            array(
+                'response' => 'success',
+                'data'=>$data
+            )
+        );
+
+        return $response;
     }
 }

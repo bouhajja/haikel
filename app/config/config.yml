@@ -90,11 +90,15 @@ easy_admin:
                 fields:
                     - { property: 'photo', template: 'vich_uploader_image.html.twig' }
                     - { property: 'reseau', type: 'text' }
+                    - { property: 'region', type: 'text' }
+                    - { property: 'emplacement', type: 'text' }
 
             show:
                 fields:
                     - { property: 'photo', template: 'vich_uploader_image.html.twig' }
                     - { property: 'reseau', type: 'text' }
+                    - { property: 'region', type: 'text' }
+                    - { property: 'emplacement', type: 'text' }
 
             form:
                 fields:

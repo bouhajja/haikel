@@ -1,12 +1,19 @@
 
 {% extends 'base.html.twig' %}
+{% block head %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% endblock %}
 
 {% block body %}
+
+
     <style type="text/css" >
         .Formulairadmin {
-            background-color: #00a65a;
+            background-color: #92c83f;
             font-family: verdana;
-            font-size: 11px;
+            font-size: 15px;
             color: #ffffff;
             height: 1cm;
         }
@@ -16,9 +23,10 @@
             color: #00a65a;
             text-decoration: none;
             font-size: 14px;
-           width: 50%;
+           width: 90%;
             height: 1cm;
             align: center;
+            margin: 7px;
 
         }
         .reservations{
@@ -58,14 +66,89 @@
             color: #ffffff;
             border: 1px solid #dddddd;
         }
+
+        #myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
     </style>
+
     <!-- Just an image -->
-    <nav class="navbar navbar-dark bg-dark" style="height: 3cm ; background-image:url("{{ asset('images/omegaplus.png')}}") ">
-        <a class="navbar-brand" href="#">
 
-        </a>
-
-    </nav>
 
     <br>
     <br>
@@ -76,21 +159,34 @@
     <script src="script.js"></script>
     <script>
         $(document).ready(function(){
+                //search_table($(this).val());
 
-            $('#search').keyup(function(){
-                search_table($(this).val());
+
+
+            $('#submit').click(function (){
+
+                var region=$("#search").val();
+
+
+
+                //search_table($(this).val());
+                var support=$("#search1").val();
+
+
+                //($(this).val());
+                var code=$("#search2").val();
+
+
+                //search_table($(this).val());
+                var emplacement=$("#search3").val();
+
+                search_table(region,support,code,emplacement);
+
+
             });
-            $('#search1').keyup(function(){
-                search_table($(this).val());
-            });
-            $('#search2').keyup(function(){
-                search_table($(this).val());
-            });
-            $('#search3').keyup(function(){
-                search_table($(this).val());
-            });
-            function search_table(value){
-                $('#tableac tbody tr').each(function(){
+            function search_table(region,support,code,emplacement){
+                alert(region);
+                /*$('#tableac tbody tr').each(function(){
                     var found = 'false';
                     $(this).each(function(){
                         if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
@@ -107,16 +203,60 @@
                     {
                         $(this).hide();
 
+                    }
+                });*/
 
 
+                $.ajax({
+                    type: 'POST',
+                    dataType: "json",
+                    url: "{{ path('mytable_search') }}",
+                    data: {
+                        emplacement: emplacement,
+                        code: code,
+                        region: region,
+                        support: support
+                    },
+                    success: function (data) {
+                        if (data.response == "success") {
+
+                            $('#resultat').empty();
+
+                            $('#tableac').css({"display": "block","overflow": "scroll"});
+                            var chaine='';
+                            var object = data.data;
+                            console.log(object);
+                            for (var i in object) {
+                                var d = object[i];
+
+                                var idface=d['idface'];
+                                var reseau=d['reseau'];
+                                var region=d['region'];
+                                var regie=d['regie'];
+                                var support=d['support'];
+                                var format=d['format'];
+                                var type=d['type'];
+                                var code_face=d['code_face'];
+                                var departement=d['departement'];
+                                var adresse=d['adresse'];
+                                var emplecement=d['emplecement'];
+                                var traffic=d['traffic'];
+                                var photo=d['photo'];
+chaine+='<tr><td>'+reseau+'</td><td>'+region+'</td><td>'+regie+'</td><td>'+support+'</td><td>'+format+'</td><td>'+type+
+    '</td><td>'+code_face+'</td><td>'+departement+'</td><td>'+adresse+'</td><td>'+emplecement+'</td><td>'+traffic+'</td><td>'+photo+'</td></tr>'
+
+                            }
+                            $('#resultat').append(chaine);
+                        }
                     }
                 });
             }
         });
     </script>
 
-    <img src="{{ asset('images/kk.png') }}" alt="IMG">
-    <img src="C:/wamp64/www/piDevEvents/web/templatePi/login_v1/images/omegaplus.PNG" width="30" height="30" alt="" />
+
+    <img src="{{ asset('templatePi/login_v1/images/omegaplus.PNG') }}" alt="IMG" style="margin-right: 25px;">
+
     <div class="col-md-12">
         <div class="panel panel-default">
 
@@ -130,31 +270,31 @@
                         <table style="background-color:#00a65a;width: 600px ; align-self: center ;border : 2px"  border="2px">
                             <tbody>
                             <tr align="center" class="Formulairadmin">
-                                <td colspan="4"><strong>Critéres de recherche</strong></td>
+                                <td colspan="4"><h5 style="font-weight:200;margin: .5rem;">Critéres de recherche</h5></td>
                             </tr>
                             <tr class="Formulairadmin">
                                 <td colspan="2" style="width:50%">
-                                    <label for="PanneauZoneId">Région</label>
+                                    <label for="PanneauZoneId" style="margin:.5rem">Région</label>
                                     <input name="code" class="Bouton" type="text" value=""
                                            id="search">
 
                                 </td>
                                 <td colspan="2" style="width:50%">
-                                    <label for="PanneauZoneId">Format</label>
+                                    <label for="PanneauZoneId" style="margin:.5rem">Support</label>
                                     <input name="code" class="Bouton" type="text" value=""
                                            id="search1">
                                 </td>
                             </tr>
                             <tr  class="Formulairadmin">
                                 <td colspan="2" style="width:50%">
-                                    <label for="PanneauCode">Code</label>
+                                    <label for="PanneauCode" style="margin:.5rem">Code</label>
 
                                         <input name="code" class="Bouton" type="text" value=""
                                                id="search2">
 
                                 </td>
                                 <td colspan="2" style="width:50%">
-                                    <label for="PanneauEmplacementId">Emplacement</label>
+                                    <label for="PanneauEmplacementId" style="margin:.5rem">Emplacement</label>
 
                                     <input name="code" class="Bouton" type="text" value=""
                                            id="search3">
@@ -166,7 +306,7 @@
 
 
 
-                                            <button type="submit" class="btn btn-primary"  action="{{ path('mytable_recherche') }}">Afficher</button>
+                                            <button id="submit" type="button" class="btn btn-primary" style="background-color: #94979e;border-color: #94979e;margin: 5px;">Afficher</button>
 
                                             <br>
 
@@ -192,7 +332,7 @@
         <div class="panel panel-default">
 
             <div class="panel-heading" style="background-color: #00a65a">
-                <h3 class="panel-title">Liste des Panneaux</h3>
+                <h3 class="panel-title"style="color:white;font-weight: 200;background-color: #92c83f" >Liste des Panneaux</h3>
             </div>
             <div class="panel-body">
 
@@ -213,15 +353,15 @@
 
                 <th>Adresse</th>
                 <th>Emplacement</th>
-                <th>Trafficroutier2017</th>
+                <th>Traffic</th>
                 <th>Map</th>
                 <th>Photo</th>
 
             </tr>
         </thead>
-        <tbody>
+        <tbody id="resultat">
         {% for mytable in mytables %}
-            <tr class="Formulairadmin" style="background-color: white ; color: black">
+            <tr  class="Formulairadmin" style="background-color: white ; color: black">
 
                 <td>{{ mytable.reseau }}</td>
                 <td>{{ mytable.zone }}</td>
@@ -236,8 +376,27 @@
                 <td>{{ mytable.adresse }}</td>
                 <td>{{ mytable.emplacement }}</td>
                 <td>{{ mytable.trafficRoutier2017 }}</td>
-                <td>{{ mytable.map }}</td>
-                <td>{{ mytable.photo }}</td>
+                <td><a href="https://www.google.com/maps/dir/{{mytable.xPanneau}},{{mytable.yPanneau}}/@{{mytable.xPanneau}},{{mytable.yPanneau}},18.29z">
+                <img src="{{ asset('templatePi/login_v1/images/MAP.jpg') }}">
+                </a></td>
+                <td>
+                 <img id="myImg" src="uploads/{{ mytable.photo }}" alt="" style="width:100%;max-width:300px">
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- The Close Button -->
+  <span class="close">&times;</span>
+
+  <!-- Modal Content (The Image) -->
+  <img class="modal-content" id="img01" src="uploads/{{ mytable.photo }}" >
+
+  <!-- Modal Caption (Image Text) -->
+  <div id="caption"></div>
+</div>
+
+
+                </td>
 
             </tr>
         {% endfor %}
@@ -253,4 +412,25 @@
 <nav aria-label="Page navigation example">
     <div class="pagination justify-content-center">{{ knp_pagination_render(mytables) }}</div>
 </nav>
+<script>
+    var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById("myImg");
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+  modal.style.display = "block";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+    </script>
 {% endblock %}
