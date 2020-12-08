@@ -31,8 +31,18 @@ class MytableController extends Controller
        );
 
 
+        $support=$em->getRepository('BibliothequeBundle:Mytable')->support();
+        $code_face=$em->getRepository('BibliothequeBundle:Mytable')->code_face();
+        $emplacement=$em->getRepository('BibliothequeBundle:Mytable')->emplacement();
+        $regie=$em->getRepository('BibliothequeBundle:Mytable')->regie();
+
         return $this->render('@Bibliotheque/mytable/index.html.twig', array(
-            'mytables' => $mytables
+            'mytables' => $mytables,
+            'support'=>$support,
+            'code_face'=>$code_face,
+            'emplacement'=>$emplacement,
+            'regie'=>$regie
+
         ));
     }
 
