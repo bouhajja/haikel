@@ -34,14 +34,14 @@ class MytableController extends Controller
         $support=$em->getRepository('BibliothequeBundle:Mytable')->support();
         $code_face=$em->getRepository('BibliothequeBundle:Mytable')->code_face();
         $emplacement=$em->getRepository('BibliothequeBundle:Mytable')->emplacement();
-        $regie=$em->getRepository('BibliothequeBundle:Mytable')->regie();
+        $region=$em->getRepository('BibliothequeBundle:Mytable')->regie();
 
         return $this->render('@Bibliotheque/mytable/index.html.twig', array(
             'mytables' => $mytables,
             'support'=>$support,
             'code_face'=>$code_face,
             'emplacement'=>$emplacement,
-            'regie'=>$regie
+            'region'=>$region
 
         ));
     }
@@ -191,7 +191,9 @@ class MytableController extends Controller
                     'adresse'=>$ent->getAdresse(),
                     'emplecement'=>$ent->getEmplacement(),
                     'traffic'=>$ent->getTrafficRoutier2017(),
-                    'photo'=>$ent->getPhoto()
+                    'xpan'=>$ent->getXPanneau(),
+                    'ypan'=>$ent->getYPanneau(),
+                    'photo'=>'uploads/'.$ent->getPhoto(),
                 ];
             }
         }
